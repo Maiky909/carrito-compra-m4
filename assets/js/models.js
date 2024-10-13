@@ -12,73 +12,35 @@ class Producto {
 // Clase Carrito
 class Carrito {
   constructor() {
-    this.productos = []; // Lista para almacenar productos seleccionados
+    this.items = []; // Lista de productos en el carrito
   }
 
-  // Agregar producto al carrito
-  agregarProducto(producto, cantidad = 1) {
-    let productoExistente = this.productos.find(
-      (p) => p.producto.id === producto.id
+  // Método para agregar productos al carrito
+  agregarProducto(producto, talla, cantidad) {
+    // Verificar si ya existe el mismo producto con la misma talla
+    const itemExistente = this.items.find(
+      (item) => item.producto.id === producto.id && item.talla === talla
     );
-    if (productoExistente) {
-      // Si el producto ya existe en el carrito, actualizamos la cantidad
-      productoExistente.cantidad += cantidad;
+
+    if (itemExistente) {
+      // Si ya existe, actualizar la cantidad
+      itemExistente.cantidad += cantidad;
     } else {
-      // Si no existe, lo agregamos con su cantidad inicial
-      this.productos.push({ producto: producto, cantidad: cantidad });
+      // Si no existe, agregar un nuevo item
+      this.items.push({ producto, talla, cantidad });
     }
   }
 
-  // Eliminar producto del carrito
-  eliminarProducto(idProducto) {
-    this.productos = this.productos.filter((p) => p.producto.id !== idProducto);
-  }
-
-  // Actualizar cantidad de un producto
-  actualizarCantidad(idProducto, nuevaCantidad) {
-    let productoExistente = this.productos.find(
-      (p) => p.producto.id === idProducto
-    );
-    if (productoExistente) {
-      productoExistente.cantidad = nuevaCantidad;
-    }
-  }
-
-  // Buscar producto por ID
-  buscarProducto(idProducto) {
-    return this.productos.find((p) => p.producto.id === idProducto);
-  }
-
-  // Calcular el total del carrito
-  calcularTotal() {
-    return this.productos.reduce(
-      (total, p) => total + p.producto.precio * p.cantidad,
-      0
-    );
-  }
-
-  // Mostrar detalles del carrito
-  mostrarDetalles() {
-    if (this.productos.length === 0) {
-      console.log("El carrito está vacío.");
+  // Método para mostrar los detalles del carrito
+  mostrarCarrito() {
+    if (this.items.length === 0) {
+      alert("El carrito está vacío.");
     } else {
-      this.productos.forEach((p) => {
-        console.log(
-          `Producto: ${p.producto.nombre}, Precio: ${p.producto.precio}, Cantidad: ${p.cantidad}`
-        );
+      let detallesCarrito = "Productos en el carrito:\n";
+      this.items.forEach((item) => {
+        detallesCarrito += `${item.producto.nombre} - Talla: ${item.talla}, Cantidad: ${item.cantidad}\n`;
       });
-      console.log(`Total: $${this.calcularTotal()}`);
-    }
-  }
-
-  // Finalizar la compra
-  finalizarCompra() {
-    if (this.productos.length === 0) {
-      console.log("No hay productos en el carrito para finalizar la compra.");
-    } else {
-      this.mostrarDetalles();
-      console.log("Compra finalizada. ¡Gracias por su compra!");
-      this.productos = []; // Vaciar el carrito
+      alert(detallesCarrito);
     }
   }
 }
@@ -131,3 +93,66 @@ function mostrarProductos() {
 document.addEventListener("DOMContentLoaded", function () {
   mostrarProductos();
 });
+
+function generarTallas(genero) {
+  let tallas = [];
+
+  if (genero === "Hombre") {
+    for (let i = 38; i <= 45; i++) {
+      tallas.push(i);
+    }
+  } else if (genero === "Mujer") {
+    for (let i = 35; i <= 41; i++) {
+      tallas.push(i);
+    }
+  } else if (genero === "Unisex") {
+    for (let i = 35; i <= 45; i++) {
+      tallas.push(i);
+    }
+  }
+
+  return tallas;
+}
+
+let carrito = new Carrito(); // Crear una instancia del carrito
+
+function mostrarDetalles(idProducto) {
+  const producto = listadoProductos.find((p) => p.id === idProducto);
+
+  if (producto) {
+    // Actualizar los detalles en el modal
+    document.getElementById("modal-name").textContent = producto.nombre;
+    document.getElementById(
+      "modal-price"
+    ).textContent = `Precio: $${producto.precio}`;
+    document.getElementById("modal-img").src = producto.imagen;
+
+    // Generar las tallas basadas en el género del producto
+    const tallas = generarTallas(producto.genero);
+    const sizeSelect = document.getElementById("size");
+    sizeSelect.innerHTML = ""; // Limpiar las opciones anteriores
+
+    tallas.forEach((talla) => {
+      const option = document.createElement("option");
+      option.value = talla;
+      option.textContent = talla;
+      sizeSelect.appendChild(option);
+    });
+
+    // Actualizar el botón de añadir al carrito para este producto
+    document.getElementById("add-to-cart").onclick = function () {
+      const tallaSeleccionada = document.getElementById("size").value;
+      const cantidadSeleccionada = parseInt(
+        document.getElementById("cantidad").value
+      );
+      carrito.agregarProducto(
+        producto,
+        tallaSeleccionada,
+        cantidadSeleccionada
+      );
+      alert(
+        `${producto.nombre} añadido al carrito. Talla: ${tallaSeleccionada}, Cantidad: ${cantidadSeleccionada}`
+      );
+    };
+  }
+}
