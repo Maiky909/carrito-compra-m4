@@ -1,9 +1,11 @@
 // Clase Producto con ID
 class Producto {
-  constructor(id, nombre, precio) {
+  constructor(id, nombre, precio, genero, imagen) {
     this.id = id;
     this.nombre = nombre;
+    this.genero = genero;
     this.precio = precio;
+    this.imagen = imagen;
   }
 }
 
@@ -83,26 +85,26 @@ class Carrito {
 
 // Crear productos
 const listadoProductos = [
-  new Producto(1, "Jordan Retro 4 Red Thunder", 1200),
-  new Producto(2, "Nike Air Force 1 Off-White", 1500),
-  new Producto(3, "Bape x Adidas Superstar", 1800),
-  new Producto(4, "Vans Old Skool", 800),
-  new Producto(5, "Air Jordan 1 High", 1300),
-  new Producto(6, "Adidas Yeezy Boost 350 V2", 2000),
-  new Producto(7, "Reebok Classic Leather", 700),
-  new Producto(8, "DC Shoes Lynx", 900),
-  new Producto(9, "Nike SB Dunk Low Pro ISO", 1100),
-  new Producto(10, "Adidas Yung-1", 1600),
-  new Producto(11, "Bape x Adidas Ultraboost", 1900),
-  new Producto(12, "Vans Sk8-Hi", 1100),
-  new Producto(13, "ASICS Gel-Cumulus 23", 1400),
-  new Producto(14, "Adidas Yeezy 750 Boost", 2200),
-  new Producto(15, "Saucony Grid 9000", 1200),
-  new Producto(16, "Reebok Club C", 1000),
-  new Producto(17, "Skechers Relaxed Fit: Ultra", 1500),
-  new Producto(18, "Air Jordan 4 Black Cat", 1800),
-  new Producto(19, "Bape x Adidas Superstar Rocket Raccoon", 1900),
-  new Producto(20, "Adidas Ultraboost 20", 2100),
+  new Producto(1, "Jordan Retro 4 Red Thunder", 1200, "Hombre"),
+  new Producto(2, "Nike Air Force 1 Off-White", 1500, "Unisex"),
+  new Producto(3, "Bape Superstar", 1800, "Mujer"),
+  new Producto(4, "Vans Old Skool", 800, "Unisex"),
+  new Producto(5, "Air Jordan 1 High", 1300, "Hombre"),
+  new Producto(6, "Adidas Yeezy Boost 350 V2", 2000, "Hombre"),
+  new Producto(7, "Reebok Classic Leather", 700, "Mujer"),
+  new Producto(8, "DC Shoes Lynx", 900, "Hombre"),
+  new Producto(9, "Nike SB Dunk Low Pro ISO", 1100, "Unisex"),
+  new Producto(10, "Adidas Yung-1", 1600, "Hombre"),
+  new Producto(11, "Bape x Adidas Ultraboost", 1900, "Mujer"),
+  new Producto(12, "Vans Sk8-Hi", 1100, "Unisex"),
+  new Producto(13, "ASICS Gel-Cumulus 23", 1400, "Hombre"),
+  new Producto(14, "Adidas Yeezy 750 Boost", 2200, "Hombre"),
+  new Producto(15, "Saucony Grid 9000", 1200, "Unisex"),
+  new Producto(16, "Reebok Club C", 1000, "Mujer"),
+  new Producto(17, "Skechers Relaxed Fit: Ultra", 1500, "Unisex"),
+  new Producto(18, "Air Jordan 4 Black Cat", 1800, "Hombre"),
+  new Producto(19, "Bape Superstar Rocket Raccoon", 1900, "Unisex"),
+  new Producto(20, "Adidas Ultraboost 20", 2100, "Unisex"),
 ];
 
 function mostrarProductos() {
@@ -114,8 +116,10 @@ function mostrarProductos() {
                 <div class="card product-card">
                     <img src="https://via.placeholder.com/150x150" class="card-img-top" alt="${producto.nombre}">
                     <div class="card-body">
-                        <h5 class="card-title">${producto.nombre}</h5>
+                        <h6 class="card-title">${producto.nombre}</h5>
+                        <p class="card-text text-muted">Zapatillas para: ${producto.genero}</p>
                         <p class="card-text">Precio: $${producto.precio}</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal" onclick="mostrarDetalles(${producto.id})">Ver detalles</button>
                     </div>
                 </div>
             </div>
