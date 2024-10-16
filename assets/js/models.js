@@ -309,7 +309,7 @@ function mostrarNotificacion(producto, talla, cantidad) {
       [
         PNotifyCountdown,
         {
-          countdown: 5, // Duración de la cuenta regresiva (en segundos)
+          countdown: 5, // Duración de la cuenta regresiva
         },
       ],
     ]),
@@ -325,9 +325,9 @@ function mostrarCarritoModal() {
   // Verificar si hay productos en el carrito y habilitar/deshabilitar el botón de pago
   const irAPagarBtn = document.getElementById("ir-a-pagar-btn");
   if (carrito.items.length === 0) {
-    irAPagarBtn.disabled = true; // Deshabilitar el botón si el carrito está vacío
+    irAPagarBtn.disabled = true; // Deshabilitar
   } else {
-    irAPagarBtn.disabled = false; // Habilitar el botón si hay productos en el carrito
+    irAPagarBtn.disabled = false; // Habilitar
   }
 
   var carritoModal = new bootstrap.Modal(
